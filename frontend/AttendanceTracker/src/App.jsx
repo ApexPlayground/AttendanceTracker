@@ -1,10 +1,14 @@
 import React from 'react'
-
+import { BrowserRouter } from "react-router-dom";
+import './index.css';
+import Navbar from "./components/Navbar.jsx";
+import Hero from "./components/Hero.jsx";
 const App = () => {
     return (
-        <h1 className="text-3xl font-bold underline">
-            Hello world!
-        </h1>
+        <>
+            <Navbar />
+            <Hero />
+        </>
     )
 }
 export default App

@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Misc
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Package lock files (optional, if you prefer using yarn instead of npm)
+/package-lock.json
+/yarn.lock

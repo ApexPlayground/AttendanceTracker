@@ -16,27 +16,35 @@ const Hero = () => {
                 </div>
 
                 {/* App Menus */}
+
                 <div className="flex flex-col space-y-8 my-6">
-                    <div className="flex items-center justify-center bg-green-600 w-full max-w-sm mx-auto rounded-md py-4 hover:bg-green-500 transition duration-300">
-                        <IoMdAddCircle className="mr-2 text-2xl" />
-                        <span className="font-semibold text-base md:text-lg">
-                            Add Attendance
-                        </span>
-                    </div>
+                    <a href="/add-attendance">
+                        <div className="flex items-center justify-center bg-green-600 w-full max-w-sm mx-auto rounded-md py-4 hover:bg-green-500 transition duration-300">
+                            <IoMdAddCircle className="mr-2 text-2xl" />
+                            <span className="font-semibold text-base md:text-lg">
+                                Add Attendance
+                            </span>
+                        </div>
+                    </a>
 
-                    <div className="flex items-center justify-center bg-green-600 w-full max-w-sm mx-auto rounded-md py-4 hover:bg-green-500 transition duration-300">
-                        <FaEye className="mr-2 text-2xl" />
-                        <span className="font-semibold text-base md:text-lg">
-                            View Attendance
-                        </span>
-                    </div>
 
-                    <div className="flex items-center justify-center bg-green-600 w-full max-w-sm mx-auto rounded-md py-4 hover:bg-green-500 transition duration-300">
-                        <FaChartArea className="mr-2 text-2xl" />
-                        <span className="font-semibold text-base md:text-lg">
-                            Analyse
-                        </span>
-                    </div>
+                    <a href="/view-attendance">
+                        <div className="flex items-center justify-center bg-green-600 w-full max-w-sm mx-auto rounded-md py-4 hover:bg-green-500 transition duration-300">
+                            <FaEye className="mr-2 text-2xl" />
+                            <span className="font-semibold text-base md:text-lg">
+                                View Attendance
+                            </span>
+                        </div>
+                    </a>
+
+                    <a href="/analyse-attendance">
+                        <div className="flex items-center justify-center bg-green-600 w-full max-w-sm mx-auto rounded-md py-4 hover:bg-green-500 transition duration-300">
+                            <FaChartArea className="mr-2 text-2xl" />
+                            <span className="font-semibold text-base md:text-lg">
+                                Analyse
+                            </span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </>

@@ -20,24 +20,26 @@ const Navbar = () => {
                 <div className={"flex items-center justify-between"}>
                     {/*Logo*/}
                     <div className="logo h-16 w-16">
-                        <img src={logo} alt="logo" />
+                        <a href={"/"}>
+                            <img src={logo} alt="logo" />
+                        </a>
                     </div>
 
                     {/*Nav links*/}
                     <div className={"hidden md:flex space-x-6"}>
-                        <a href="#" className="font-semibold group text-green-700 transition duration-300">
+                        <a href={"/add-attendance"} className="font-semibold group text-green-700 transition duration-300">
                             Add
                             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-green-700"></span>
                         </a>
-                        <a href={"#"} className="font-semibold group text-green-700 transition duration-300">
+                        <a href={"/view-attendance"} className="font-semibold group text-green-700 transition duration-300">
                             View Attendance
                             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-green-700"></span>
                         </a>
-                        <a href={"#"} className="font-semibold group text-green-700 transition duration-300 ">
+                        <a href={"/analyse-attendance"} className="font-semibold group text-green-700 transition duration-300 ">
                             Charts
                             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-green-700"></span>
                         </a>
-                        <a href={"#"} className="font-semibold group text-green-700 transition duration-300">
+                        <a href={"/tutorial"} className="font-semibold group text-green-700 transition duration-300">
                             Tutorial
                             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-green-700"></span>
                         </a>
@@ -56,7 +58,7 @@ const Navbar = () => {
                     className={`${isMenuOpen
                         ? "max-h-screen opacity-100" // Menu open: full height, visible
                         : "max-h-0 opacity-0" // Menu closed: hidden
-                        } overflow-hidden transition-all duration-500 ease-in-out md:hidden space-y-4 mt-4`}
+                        } overflow-hidden transition-all duration-300 ease-in-out md:hidden space-y-4 mt-4`}
                 >
                     <a href={"#"} className="block text-center"> Add </a>
                     <a href={"#"} className="block text-center"> View Attendance </a>

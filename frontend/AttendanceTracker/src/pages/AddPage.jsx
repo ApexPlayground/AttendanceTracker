@@ -1,6 +1,7 @@
+import AddForm from "../components/AddForm"
 const AddPage = () => {
     return (
-        <div>AddPage</div>
+        <AddForm />
     )
 }
 

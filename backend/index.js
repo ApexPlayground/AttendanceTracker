@@ -1,18 +1,18 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+import express, { json, urlencoded } from 'express';
+import cors from 'cors';
+import { config } from 'dotenv';
+import { connect } from 'mongoose';
+import Attendance from './models/Attendance.js';
 
 
-dotenv.config();
+config();
 
 const app = express();
 const PORT = process.env.PORT || 7000;
 const MONGOURL = process.env.MONGO_URL;
 
 // MongoDB Connection
-mongoose.connect(MONGOURL)
+connect(MONGOURL)
     .then(() => {
         console.log("DB connected successfully");
     })
@@ -23,8 +23,39 @@ mongoose.connect(MONGOURL)
 
 // Middleware
 app.use(cors());
-app.use(express.json());  // Built-in JSON parser
-app.use(express.urlencoded({ extended: true }));  // Built-in URL-encoded parser
+app.use(json());
+app.use(urlencoded({ extended: true }));
+
+// route to save attendance data
+app.post('/submit', async (req, res) => {
+    try {
+        const { name, day, amount } = req.body
+
+        if (!name || !day || !amount) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        const newAttendance = new Attendance({
+            name,
+            day,
+            amount
+        });
+
+        // Save the new attendance record to MongoDB
+        await newAttendance.save();
+
+        return res.status(201).json({
+            message: 'Attendance record saved successfully',
+            data: newAttendance
+
+        })
+    } catch (error) {
+        console.error('Error saving attendance record:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+})
+
+
 
 // Default route for testing the server
 app.get("/", (req, res) => {

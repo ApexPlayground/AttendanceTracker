@@ -56,6 +56,18 @@ app.post('/submit', async (req, res) => {
     }
 });
 
+// Route to fetch all attendance records
+app.get('/attendance', async (req, res) => {
+    try {
+        const attendanceRecords = await Attendance.find(); // Fetch all records from the Attendance model
+        return res.status(200).json({ data: attendanceRecords });
+    } catch (error) {
+        console.error('Error fetching attendance records:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 
 // Default route for testing the server

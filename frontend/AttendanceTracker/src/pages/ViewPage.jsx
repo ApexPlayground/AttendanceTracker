@@ -1,6 +1,7 @@
+import AttendanceTable from "../components/AttendanceTable"
 const ViewPage = () => {
     return (
-        <div>ViewPage</div>
+        <AttendanceTable />
     )
 }
 

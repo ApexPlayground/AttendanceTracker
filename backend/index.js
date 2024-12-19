@@ -28,17 +28,19 @@ app.use(urlencoded({ extended: true }));
 
 // route to save attendance data
 app.post('/submit', async (req, res) => {
-    try {
-        const { name, day, amount } = req.body
 
-        if (!name || !day || !amount) {
+    try {
+        const { name, day, amount, date } = req.body;
+
+        if (!name || !day || !amount || !date) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
         const newAttendance = new Attendance({
             name,
             day,
-            amount
+            amount,
+            date: new Date(date),
         });
 
         // Save the new attendance record to MongoDB
@@ -47,13 +49,12 @@ app.post('/submit', async (req, res) => {
         return res.status(201).json({
             message: 'Attendance record saved successfully',
             data: newAttendance
-
-        })
+        });
     } catch (error) {
         console.error('Error saving attendance record:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
-})
+});
 
 
 

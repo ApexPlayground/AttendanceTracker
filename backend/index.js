@@ -28,7 +28,6 @@ app.use(urlencoded({ extended: true }));
 
 // route to save attendance data
 app.post('/submit', async (req, res) => {
-
     try {
         const { name, day, amount, date } = req.body;
 
@@ -36,6 +35,18 @@ app.post('/submit', async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
+        // Check if a record with the same day and date already exists
+        const existingRecord = await Attendance.findOne({ day, date: new Date(date) });
+
+        if (existingRecord) {
+            return res.status(200).json({
+                status: 'exists',
+                message: 'Record with this day and date already exists',
+                data: existingRecord
+            });
+        }
+
+        // Create and save the new attendance record
         const newAttendance = new Attendance({
             name,
             day,
@@ -43,10 +54,10 @@ app.post('/submit', async (req, res) => {
             date: new Date(date),
         });
 
-        // Save the new attendance record to MongoDB
         await newAttendance.save();
 
         return res.status(201).json({
+            status: 'success',
             message: 'Attendance record saved successfully',
             data: newAttendance
         });
@@ -55,6 +66,8 @@ app.post('/submit', async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+
 
 // Route to fetch all attendance records
 app.get('/attendance', async (req, res) => {

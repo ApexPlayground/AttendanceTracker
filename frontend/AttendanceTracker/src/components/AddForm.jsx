@@ -13,7 +13,10 @@ const AddForm = () => {
         amount: "",
         date: ""
     });
-    const [showModal, setShowModal] = useState(false);
+    const [modalConfig, setModalConfig] = useState({
+        isVisible: false,
+        message: "",
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,33 +29,50 @@ const AddForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
         try {
             // Format the date before sending to the backend
-            const formattedDate = dayjs(formData.date).startOf('day').toISOString();
+            const formattedDate = dayjs(formData.date).startOf("day").toISOString();
             const formDataToSend = { ...formData, date: formattedDate };
 
             const response = await axios.post("http://localhost:5000/submit", formDataToSend);
-            console.log("Data saved:", response.data);
-            setShowModal(true); // Show success modal
+
+            if (response.data.status === "exists") {
+                setModalConfig({
+                    isVisible: true,
+                    message: "Record already exists: " + response.data.message,
+                });
+            } else {
+                setModalConfig({
+                    isVisible: true,
+                    message: "Data submitted successfully!",
+                });
+            }
         } catch (error) {
             console.error("Error submitting data:", error.response?.data || error.message);
-            alert("Error submitting data");
+            setModalConfig({
+                isVisible: true,
+                message: "An error occurred while submitting the data. Please try again.",
+            });
         }
     };
 
-    const handleOk = () => {
-        setShowModal(false);
-        window.location.reload();
+    const handleModalClose = () => {
+        setModalConfig({ isVisible: false, message: "" });
+        if (modalConfig.message.includes("successfully")) {
+            window.location.reload();
+        }
     };
 
     return (
         <div className="relative container mx-auto w-full md:w-1/2 mt-12 p-6">
+            {/* Modal */}
             <Modal
-                isVisible={showModal}
-                message="Data submitted successfully!"
-                onConfirm={handleOk}
+                isVisible={modalConfig.isVisible}
+                message={modalConfig.message}
+                onConfirm={handleModalClose}
             />
+
+            {/* Form */}
             <div className="mb-12">
                 <h1 className="text-3xl md:text-4xl font-bold text-center">
                     Enter Church Count
@@ -86,8 +106,8 @@ const AddForm = () => {
                         <option value="DEFAULT" disabled>
                             Select a day...
                         </option>
-                        <option value="wednesday">Wednesday</option>
-                        <option value="sunday">Sunday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Sunday">Sunday</option>
                     </select>
                 </div>
                 {/* Enter Amount */}
@@ -115,7 +135,7 @@ const AddForm = () => {
                 <div className="mx-auto w-9/12">
                     <button
                         type="submit"
-                        className="w-full mt-8 bg-green-600 font-semibold py-2 rounded-2xl hover:bg-green-500 focus:ring-2 focus:ring-green-300 transition duration-300"
+                        className="w-full mt-8 bg-green-600 font-semibold text-white py-2 rounded-md hover:bg-green-500 transition"
                     >
                         Submit
                     </button>

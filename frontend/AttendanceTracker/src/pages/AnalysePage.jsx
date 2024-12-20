@@ -1,6 +1,7 @@
+import Charts from "../components/Charts"
 const AnalysePage = () => {
     return (
-        <div>AnalysePage</div>
+        <Charts />
     )
 }
 

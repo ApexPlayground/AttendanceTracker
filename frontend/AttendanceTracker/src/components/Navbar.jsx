@@ -39,10 +39,7 @@ const Navbar = () => {
                             Charts
                             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-green-800"></span>
                         </a>
-                        <a href={"/tutorial"} className="font-semibold group text-green-800 transition duration-300">
-                            Tutorial
-                            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-green-800"></span>
-                        </a>
+
                     </div>
 
                     <div className="block md:hidden">
@@ -76,12 +73,7 @@ const Navbar = () => {
                     >
                         Charts
                     </a>
-                    <a
-                        href={"/tutorial"}
-                        className="block text-center text-green-800 font-semibold py-2 hover:bg-green-100 rounded"
-                    >
-                        Tutorial
-                    </a>
+
                 </div>
             </nav>
         </>

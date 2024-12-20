@@ -12,7 +12,11 @@ const AttendanceTable = () => {
         const fetchAttendanceData = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/attendance"); // Fetch data from the backend
-                setAttendanceData(response.data.data); // Set new data and replace old data
+
+                // Sort data by date in descending order (recent data first)
+                const sortedData = response.data.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                setAttendanceData(sortedData); // Set sorted data into state
                 setCurrentPage(1); // Reset to page 1 when new data is fetched
             } catch (error) {
                 console.error("Error fetching attendance data:", error);
@@ -21,6 +25,7 @@ const AttendanceTable = () => {
 
         fetchAttendanceData();
     }, []);
+
 
 
     // Get current records based on pagination
@@ -70,7 +75,7 @@ const AttendanceTable = () => {
                         disabled={currentPage === 1}
                         className="px-2 py-2 text-blue-500 disabled:text-gray-400"
                     >
-                        <FiChevronLeft size={24} /> {/* Previous Arrow Icon */}
+                        <FiChevronLeft size={24} />
                     </button>
 
                     <span className="flex items-center justify-center text-lg font-semibold">{`Page ${currentPage} of ${totalPages}`}</span>
@@ -80,7 +85,7 @@ const AttendanceTable = () => {
                         disabled={currentPage === totalPages}
                         className="px-2 py-2 text-blue-500 disabled:text-gray-400"
                     >
-                        <FiChevronRight size={24} /> {/* Next Arrow Icon */}
+                        <FiChevronRight size={24} />
                     </button>
                 </div>
             </div>

@@ -26,8 +26,6 @@ const AttendanceTable = () => {
         fetchAttendanceData();
     }, []);
 
-
-
     // Get current records based on pagination
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
@@ -43,7 +41,7 @@ const AttendanceTable = () => {
         <>
             <div className="container mx-auto w-full md:w-3/4 mt-12 p-6">
                 <div className="mb-8 text-center">
-                    <h1 className="text-3xl md:text-4xl font-bold ">Church Attendance</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold">Church Attendance</h1>
                 </div>
                 <div className="overflow-x-auto rounded-lg shadow-md">
                     <table className="min-w-full table-auto text-sm text-left text-gray-700">
@@ -53,6 +51,7 @@ const AttendanceTable = () => {
                                 <th className="px-6 py-3 text-center">Amount</th>
                                 <th className="px-6 py-3 text-center">Day</th>
                                 <th className="px-6 py-3 text-center">Date</th>
+                                <th className="px-6 py-3 text-center">New Faces</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,6 +61,11 @@ const AttendanceTable = () => {
                                     <td className="px-6 py-4 text-center">{record.amount}</td>
                                     <td className="px-6 py-4 text-center">{record.day}</td>
                                     <td className="px-6 py-4 text-center">{new Date(record.date).toLocaleDateString()}</td>
+                                    <td className="px-6 py-4 text-center">
+                                        {record.newAttendees && record.newAttendees.length > 0
+                                            ? record.newAttendees.join(", ")
+                                            : "N/A"}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

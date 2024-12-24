@@ -26,10 +26,10 @@ app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-// route to save attendance data
+// Route to save attendance data
 app.post('/submit', async (req, res) => {
     try {
-        const { name, day, amount, date } = req.body;
+        const { name, day, amount, date, newAttendees } = req.body;
 
         if (!name || !day || !amount || !date) {
             return res.status(400).json({ message: 'All fields are required' });
@@ -52,6 +52,7 @@ app.post('/submit', async (req, res) => {
             day,
             amount,
             date: new Date(date),
+            newAttendees: newAttendees || [] // Default to an empty array if not provided
         });
 
         await newAttendance.save();
@@ -67,8 +68,6 @@ app.post('/submit', async (req, res) => {
     }
 });
 
-
-
 // Route to fetch all attendance records
 app.get('/attendance', async (req, res) => {
     try {
@@ -79,7 +78,6 @@ app.get('/attendance', async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 });
-
 
 
 

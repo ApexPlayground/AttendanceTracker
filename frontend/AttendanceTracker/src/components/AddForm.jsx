@@ -4,15 +4,17 @@ import DatePicker from "./DatePicker";
 import Modal from "./Modal";
 import axios from "axios";
 import { useState } from "react";
-import dayjs from "dayjs"; // Import dayjs to format the date
+import dayjs from "dayjs";
 
 const AddForm = () => {
     const [formData, setFormData] = useState({
         name: "",
         day: "DEFAULT",
         amount: "",
-        date: ""
+        date: "",
+        newAttendees: [] // Add field for new attendees
     });
+    const [newAttendee, setNewAttendee] = useState(""); // Temporary input for a single new attendee
     const [modalConfig, setModalConfig] = useState({
         isVisible: false,
         message: "",
@@ -26,11 +28,27 @@ const AddForm = () => {
         }));
     };
 
+    const addNewAttendee = () => {
+        if (newAttendee.trim()) {
+            setFormData((prevState) => ({
+                ...prevState,
+                newAttendees: [...prevState.newAttendees, newAttendee.trim()],
+            }));
+            setNewAttendee(""); // Clear the input field
+        }
+    };
+
+    const removeAttendee = (index) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            newAttendees: prevState.newAttendees.filter((_, i) => i !== index),
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // Format the date before sending to the backend
             const formattedDate = dayjs(formData.date).startOf("day").toISOString();
             const formDataToSend = { ...formData, date: formattedDate };
 
@@ -94,6 +112,7 @@ const AddForm = () => {
                         />
                     </div>
                 </div>
+
                 {/* Select Day */}
                 <div className="mx-auto w-9/12">
                     <label className="block mb-2 text-md font-semibold">Select Day</label>
@@ -110,6 +129,7 @@ const AddForm = () => {
                         <option value="Sunday">Sunday</option>
                     </select>
                 </div>
+
                 {/* Enter Amount */}
                 <div className="mx-auto w-9/12">
                     <label className="block mb-2 text-md font-semibold">Enter Amount</label>
@@ -125,17 +145,53 @@ const AddForm = () => {
                         />
                     </div>
                 </div>
-                {/* DatePicker */}
+
+                {/* Date Picker */}
                 <DatePicker
                     value={formData.date}
                     onChange={(selectedDate) => {
                         setFormData((prev) => ({ ...prev, date: selectedDate }));
                     }}
                 />
+
+                {/* New Attendees */}
+                <div className="mx-auto w-9/12">
+                    <label className="block mb-2 text-md font-semibold">New Attendees</label>
+                    <div className="flex items-center space-x-2">
+                        <input
+                            type="text"
+                            value={newAttendee}
+                            onChange={(e) => setNewAttendee(e.target.value)}
+                            className="w-full pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-black rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                            placeholder="Enter a name"
+                        />
+                        <button
+                            type="button"
+                            onClick={addNewAttendee}
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-500"
+                        >
+                            Add
+                        </button>
+                    </div>
+                    {/* Display New Attendees */}
+                    <div className="mt-2 flex flex-wrap gap-2">
+                        {formData.newAttendees.map((attendee, index) => (
+                            <span
+                                key={index}
+                                className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md shadow cursor-pointer"
+                                onClick={() => removeAttendee(index)}
+                            >
+                                {attendee} &times;
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Submit Button */}
                 <div className="mx-auto w-9/12">
                     <button
                         type="submit"
-                        className="w-full mt-8 bg-green-600 font-semibold text-white py-2 rounded-md hover:bg-green-500 transition"
+                        className="w-full px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-500"
                     >
                         Submit
                     </button>

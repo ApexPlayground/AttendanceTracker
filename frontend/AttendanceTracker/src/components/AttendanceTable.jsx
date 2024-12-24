@@ -61,7 +61,7 @@ const AttendanceTable = () => {
                                     <td className="px-6 py-4 text-center">{record.amount}</td>
                                     <td className="px-6 py-4 text-center">{record.day}</td>
                                     <td className="px-6 py-4 text-center">{new Date(record.date).toLocaleDateString()}</td>
-                                    <td className="px-6 py-4 text-center">
+                                    <td className="px-6 py-4 text-center font-bold mx-5">
                                         {record.newAttendees && record.newAttendees.length > 0
                                             ? record.newAttendees.join(", ")
                                             : "N/A"}

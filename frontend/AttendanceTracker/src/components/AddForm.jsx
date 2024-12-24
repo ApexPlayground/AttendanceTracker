@@ -168,7 +168,7 @@ const AddForm = () => {
                         <button
                             type="button"
                             onClick={addNewAttendee}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-500"
+                            className="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-500"
                         >
                             Add
                         </button>

@@ -69,7 +69,7 @@ const AddForm = () => {
             console.error("Error submitting data:", error.response?.data || error.message);
             setModalConfig({
                 isVisible: true,
-                message: "An error occurred while submitting the data. Please try again.",
+                message: "All field should be filled.",
             });
         }
     };

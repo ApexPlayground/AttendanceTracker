@@ -3,6 +3,7 @@ import cors from 'cors';
 import { config } from 'dotenv';
 import { connect } from 'mongoose';
 import Attendance from './models/Attendance.js';
+import path from 'path';
 
 
 config();

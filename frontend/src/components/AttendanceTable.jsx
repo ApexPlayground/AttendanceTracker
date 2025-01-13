@@ -52,6 +52,7 @@ const AttendanceTable = () => {
                                 <th className="px-6 py-3 text-center">Day</th>
                                 <th className="px-6 py-3 text-center">Date</th>
                                 <th className="px-6 py-3 text-center">New Faces</th>
+                                <th className="px-6 py-3 text-center">Amount(New Faces)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,6 +67,7 @@ const AttendanceTable = () => {
                                             ? record.newAttendees.join(", ")
                                             : "N/A"}
                                     </td>
+                                    <td className="px-6 py-4 text-center">{record.newAmount}</td>
                                 </tr>
                             ))}
                         </tbody>

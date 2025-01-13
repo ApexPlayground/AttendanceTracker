@@ -29,7 +29,7 @@ app.use(urlencoded({ extended: true }));
 // Route to save attendance data
 app.post('/submit', async (req, res) => {
     try {
-        const { name, day, amount, date, newAttendees } = req.body;
+        const { name, day, amount, date, newAttendees, newAmount } = req.body;
 
         if (!name || !day || !amount || !date) {
             return res.status(400).json({ message: 'All fields are required' });
@@ -52,7 +52,8 @@ app.post('/submit', async (req, res) => {
             day,
             amount,
             date: new Date(date),
-            newAttendees: newAttendees || [] // Default to an empty array if not provided
+            newAttendees: newAttendees || [],
+            newAmount,
         });
 
         await newAttendance.save();

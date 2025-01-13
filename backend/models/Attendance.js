@@ -20,7 +20,11 @@ const attendanceSchema = new mongoose.Schema({
     newAttendees: {
         type: [String],
         default: []
-    }
+    },
+    newAmount: {
+        type: Number,
+        default: 0
+    },
 });
 
 const Attendance = mongoose.model('Attendance', attendanceSchema);

@@ -12,7 +12,8 @@ const AddForm = () => {
         day: "DEFAULT",
         amount: "",
         date: "",
-        newAttendees: [] // Add field for new attendees
+        newAttendees: [], // Add field for new attendees
+        newAmount: "",
     });
     const [newAttendee, setNewAttendee] = useState(""); // Temporary input for a single new attendee
     const [modalConfig, setModalConfig] = useState({
@@ -34,7 +35,7 @@ const AddForm = () => {
                 ...prevState,
                 newAttendees: [...prevState.newAttendees, newAttendee.trim()],
             }));
-            setNewAttendee(""); // Clear the input field
+            setNewAttendee("");
         }
     };
 
@@ -184,6 +185,22 @@ const AddForm = () => {
                                 {attendee} &times;
                             </span>
                         ))}
+                    </div>
+                </div>
+
+                {/*new attendance amount*/}
+                <div className="mx-auto w-9/12">
+                    <label className="block mb-2 text-md font-semibold">New attendance count</label>
+                    <div className="relative w-full">
+                        <RiNumbersFill className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black text-xl" />
+                        <input
+                            type="number"
+                            name="newAmount"
+                            value={formData.newAmount}
+                            onChange={handleChange}
+                            className="w-full pl-3 pr-10 py-2 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-black rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                            placeholder="Type here..."
+                        />
                     </div>
                 </div>
 

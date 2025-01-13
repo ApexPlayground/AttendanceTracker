@@ -2,9 +2,11 @@ import { IoPersonCircle } from "react-icons/io5";
 import { RiNumbersFill } from "react-icons/ri";
 import DatePicker from "./DatePicker";
 import Modal from "./Modal";
-import axios from "axios";
+import { axiosInstance } from "../lib/axios";
 import { useState } from "react";
 import dayjs from "dayjs";
+
+
 
 const AddForm = () => {
     const [formData, setFormData] = useState({
@@ -53,7 +55,7 @@ const AddForm = () => {
             const formattedDate = dayjs(formData.date).startOf("day").toISOString();
             const formDataToSend = { ...formData, date: formattedDate };
 
-            const response = await axios.post("http://localhost:5000/submit", formDataToSend);
+            const response = await axiosInstance.post("/submit", formDataToSend);
 
             if (response.data.status === "exists") {
                 setModalConfig({
@@ -67,13 +69,24 @@ const AddForm = () => {
                 });
             }
         } catch (error) {
-            console.error("Error submitting data:", error.response?.data || error.message);
-            setModalConfig({
-                isVisible: true,
-                message: "All field should be filled.",
-            });
+            if (error.response?.status === 400 && error.response?.data.message === "All fields are required") {
+                const requiredMessage = "All fields required except";
+                const optionalFields = ['"New Attendance"', '"New Attendance Count"'];
+
+                setModalConfig({
+                    isVisible: true,
+                    message: `${requiredMessage} ${optionalFields.join(' & ')}`,
+                });
+            } else {
+                console.error("Error submitting data:", error.response?.data || error.message);
+                setModalConfig({
+                    isVisible: true,
+                    message: "An error occurred: " + (error.response?.data.message || error.message),
+                });
+            }
         }
     };
+
 
     const handleModalClose = () => {
         setModalConfig({ isVisible: false, message: "" });

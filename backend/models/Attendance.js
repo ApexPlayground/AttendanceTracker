@@ -23,7 +23,6 @@ const attendanceSchema = new mongoose.Schema({
     },
     newAmount: {
         type: Number,
-        default: 0
     },
 });
 

@@ -11,6 +11,7 @@ config();
 const app = express();
 const PORT = process.env.PORT || 7000;
 const MONGOURL = process.env.MONGO_URL;
+const __dirname = path.resolve()
 
 // MongoDB Connection
 connect(MONGOURL)

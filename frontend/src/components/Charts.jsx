@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import axios from "axios";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -10,6 +9,7 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
+import { axiosInstance } from "../lib/axios";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -23,7 +23,7 @@ const Charts = () => {
     useEffect(() => {
         const fetchAttendanceData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/attendance");
+                const response = await axiosInstance.get("/attendance");
                 setAttendanceData(response.data.data);
             } catch (error) {
                 console.error("Error fetching attendance data:", error);

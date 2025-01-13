@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { axiosInstance } from "../lib/axios";
 
 const AttendanceTable = () => {
     const [attendanceData, setAttendanceData] = useState([]);
@@ -11,7 +11,7 @@ const AttendanceTable = () => {
     useEffect(() => {
         const fetchAttendanceData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/attendance"); // Fetch data from the backend
+                const response = await axiosInstance.get("/attendance"); // Fetch data from the backend
 
                 // Sort data by date in descending order (recent data first)
                 const sortedData = response.data.data.sort((a, b) => new Date(b.date) - new Date(a.date));

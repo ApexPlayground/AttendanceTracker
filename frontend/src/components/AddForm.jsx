@@ -113,7 +113,7 @@ const AddForm = () => {
             <form onSubmit={handleSubmit} className="flex flex-col space-y-5 my-6">
                 {/* Enter Name */}
                 <div className="mx-auto w-9/12">
-                    <label className="block mb-2 text-md font-semibold">Enter Name</label>
+                    <label className="block mb-2 text-md font-semibold">Usher&apos;s Name</label>
                     <div className="relative w-full">
                         <IoPersonCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black text-xl" />
                         <input
@@ -170,7 +170,7 @@ const AddForm = () => {
 
                 {/* New Attendees */}
                 <div className="mx-auto w-9/12">
-                    <label className="block mb-2 text-md font-semibold">New Attendees</label>
+                    <label className="block mb-2 text-md font-semibold">New Attendees Names</label>
                     <div className="flex items-center space-x-2">
                         <input
                             type="text"
@@ -203,7 +203,7 @@ const AddForm = () => {
 
                 {/*new attendance amount*/}
                 <div className="mx-auto w-9/12">
-                    <label className="block mb-2 text-md font-semibold">New attendance count</label>
+                    <label className="block mb-2 text-md font-semibold">New Attendees Amount</label>
                     <div className="relative w-full">
                         <RiNumbersFill className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black text-xl" />
                         <input

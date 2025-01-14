@@ -59,14 +59,19 @@ const Charts = () => {
         ],
     };
 
-    // Chart data for Sundays
+    // Chart data for Sundays with AM and PM attendance
     const sundayChartData = {
         labels: sundayData.map(record => new Date(record.date).toLocaleDateString()),
         datasets: [
             {
-                label: "Sunday Attendance",
-                data: sundayData.map(record => record.amount),
+                label: "Sunday AM Attendance",
+                data: sundayData.map(record => record.amAmount),
                 backgroundColor: "rgba(255, 165, 0, 0.6)",
+            },
+            {
+                label: "Sunday PM Attendance",
+                data: sundayData.map(record => record.pmAmount),
+                backgroundColor: "rgba(255, 99, 132, 0.6)",
             },
         ],
     };
@@ -114,7 +119,7 @@ const Charts = () => {
                 </select>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                 {/* Wednesday Chart */}
                 <div className="bg-white shadow-md rounded p-4">
                     <h2 className="text-xl font-semibold text-center mb-4">Wednesday Attendance</h2>

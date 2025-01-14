@@ -13,6 +13,8 @@ const AddForm = () => {
         name: "",
         day: "DEFAULT",
         amount: "",
+        amAmount: "",
+        pmAmount: "",
         date: "",
         newAttendees: [], // Add field for new attendees
         newAmount: "",
@@ -144,21 +146,62 @@ const AddForm = () => {
                     </select>
                 </div>
 
-                {/* Enter Amount */}
-                <div className="mx-auto w-9/12">
-                    <label className="block mb-2 text-md font-semibold">Enter Amount</label>
-                    <div className="relative w-full">
-                        <RiNumbersFill className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black text-xl" />
-                        <input
-                            type="number"
-                            name="amount"
-                            value={formData.amount}
-                            onChange={handleChange}
-                            className="w-full pl-3 pr-10 py-2 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-black rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                            placeholder="Type here..."
-                        />
+                {/* Enter Amount (for Wednesday) */}
+                {formData.day === "Wednesday" && (
+                    <div className="mx-auto w-9/12">
+                        <label className="block mb-2 text-md font-semibold">Enter Amount</label>
+                        <div className="relative w-full">
+                            <RiNumbersFill className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black text-xl" />
+                            <input
+                                type="number"
+                                name="amount"
+                                value={formData.amount}
+                                onChange={handleChange}
+                                className="w-full pl-3 pr-10 py-2 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-black rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                                placeholder="Enter amount..."
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
+
+                {/* Enter Amount */}
+                {/* Conditional AM/PM Inputs for Sunday */}
+                {formData.day === "Sunday" && (
+                    <>
+                        {/* Enter AM Amount */}
+                        <div className="mx-auto w-9/12">
+                            <label className="block mb-2 text-md font-semibold">Enter AM Amount</label>
+                            <div className="relative w-full">
+                                <RiNumbersFill className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black text-xl" />
+                                <input
+                                    type="number"
+                                    name="amAmount"
+                                    value={formData.amAmount}
+                                    onChange={handleChange}
+                                    className="w-full pl-3 pr-10 py-2 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-black rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                                    placeholder="Type AM amount..."
+                                />
+                            </div>
+                        </div>
+
+                        {/* Enter PM Amount */}
+                        <div className="mx-auto w-9/12">
+                            <label className="block mb-2 text-md font-semibold">Enter PM Amount</label>
+                            <div className="relative w-full">
+                                <RiNumbersFill className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black text-xl" />
+                                <input
+                                    type="number"
+                                    name="pmAmount"
+                                    value={formData.pmAmount}
+                                    onChange={handleChange}
+                                    className="w-full pl-3 pr-10 py-2 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-black rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                                    placeholder="Type PM amount..."
+                                />
+                            </div>
+                        </div>
+                    </>
+                )}
+
 
                 {/* Date Picker */}
                 <DatePicker

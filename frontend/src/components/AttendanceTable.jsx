@@ -59,7 +59,17 @@ const AttendanceTable = () => {
                             {currentRecords.map((record, index) => (
                                 <tr key={index} className="border-b hover:bg-gray-50">
                                     <td className="px-6 py-4 text-center">{record.name}</td>
-                                    <td className="px-6 py-4 text-center">{record.amount}</td>
+
+                                    {/* Conditionally render Amount based on Day */}
+                                    <td className="px-6 py-4 text-center">
+                                        {record.day === "Wednesday" && record.amount}
+                                        {record.day === "Sunday" && (
+                                            <>
+                                                AM: {record.amAmount} / PM: {record.pmAmount}
+                                            </>
+                                        )}
+                                    </td>
+
                                     <td className="px-6 py-4 text-center">{record.day}</td>
                                     <td className="px-6 py-4 text-center">{new Date(record.date).toLocaleDateString()}</td>
                                     <td className="px-6 py-4 text-center font-bold mx-5">

@@ -47,8 +47,11 @@ app.post('/submit', async (req, res) => {
             return res.status(400).json({ message: 'Amount is required for Wednesday attendance' });
         }
 
-        if (day === 'Sunday' && (amAmount === undefined || pmAmount === undefined)) {
-            return res.status(400).json({ message: 'AM and PM amounts are required for Sunday attendance' });
+        if (
+            day === 'Sunday' &&
+            (amAmount === '' || pmAmount === '')
+        ) {
+            return res.status(400).json({ message: 'Both AM and PM amounts are required, wait till you get evening count😉' });
         }
 
         // Ensure `date` is valid

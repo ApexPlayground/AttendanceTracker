@@ -47,37 +47,10 @@ const Charts = () => {
         setSundayData(filteredData.filter(record => record.day === "Sunday"));
     }, [attendanceData, selectedMonth, selectedYear]);
 
-    // Chart data for Wednesdays
-    const wednesdayChartData = {
-        labels: wednesdayData.map(record => new Date(record.date).toLocaleDateString()),
-        datasets: [
-            {
-                label: "Wednesday Attendance",
-                data: wednesdayData.map(record => record.amount),
-                backgroundColor: "rgba(34, 139, 34, 0.6)",
-            },
-        ],
-    };
-
-    // Chart data for Sundays with AM and PM attendance
-    const sundayChartData = {
-        labels: sundayData.map(record => new Date(record.date).toLocaleDateString()),
-        datasets: [
-            {
-                label: "Sunday AM Attendance",
-                data: sundayData.map(record => record.amAmount),
-                backgroundColor: "rgba(255, 165, 0, 0.6)",
-            },
-            {
-                label: "Sunday PM Attendance",
-                data: sundayData.map(record => record.pmAmount),
-                backgroundColor: "rgba(255, 99, 132, 0.6)",
-            },
-        ],
-    };
-
     const options = {
         responsive: true,
+        maintainAspectRatio: true, // Prevent uncontrolled height growth
+        aspectRatio: window.innerWidth < 768 ? 1 : 2, // Set aspect ratio based on screen size
         plugins: {
             legend: {
                 position: "top",
@@ -87,7 +60,62 @@ const Charts = () => {
                 text: "Attendance Chart",
             },
         },
+        scales: {
+            x: {
+                ticks: {
+                    font: {
+                        size: window.innerWidth < 768 ? 10 : 14, // Font size adjustment
+                    },
+                },
+            },
+            y: {
+                ticks: {
+                    font: {
+                        size: window.innerWidth < 768 ? 10 : 14, // Font size adjustment
+                    },
+                },
+            },
+        },
+        layout: {
+            padding: {
+                top: 10,
+                bottom: 10,
+                left: 10,
+                right: 10,
+            },
+        },
     };
+
+    const wednesdayChartData = {
+        labels: wednesdayData.map(record => new Date(record.date).toLocaleDateString()),
+        datasets: [
+            {
+                label: "Wednesday Attendance",
+                data: wednesdayData.map(record => record.amount),
+                backgroundColor: "rgba(34, 139, 34, 0.6)",
+                barThickness: window.innerWidth < 768 ? 15 : 10, // Fixed bar thickness
+            },
+        ],
+    };
+
+    const sundayChartData = {
+        labels: sundayData.map(record => new Date(record.date).toLocaleDateString()),
+        datasets: [
+            {
+                label: "Sunday AM Attendance",
+                data: sundayData.map(record => record.amAmount),
+                backgroundColor: "rgba(255, 165, 0, 0.6)",
+                barThickness: window.innerWidth < 768 ? 15 : 10, // Fixed bar thickness
+            },
+            {
+                label: "Sunday PM Attendance",
+                data: sundayData.map(record => record.pmAmount),
+                backgroundColor: "rgba(255, 99, 132, 0.6)",
+                barThickness: window.innerWidth < 768 ? 15 : 10, // Fixed bar thickness
+            },
+        ],
+    };
+
 
     return (
         <div className="container mx-auto mt-12 p-6">

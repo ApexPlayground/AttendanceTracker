@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 const AddForm = () => {
     const [formData, setFormData] = useState({
         name: "",
-        day: "DEFAULT",
+        day: "",
         amount: "",
         amAmount: "",
         pmAmount: "",
@@ -53,41 +53,64 @@ const AddForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const formattedDate = dayjs(formData.date).startOf("day").toISOString();
-            const formDataToSend = { ...formData, date: formattedDate };
+        // Validate if the date is valid before proceeding
+        const formattedDate = dayjs(formData.date).startOf("day");
+        if (!formattedDate.isValid()) {
+            setModalConfig({
+                isVisible: true,
+                message: "Invalid date. Please enter a valid date🤦.",
+            });
+            return;
+        }
 
+        try {
+            // Format the date to ISO string
+            const formDataToSend = { ...formData, date: formattedDate.toISOString() };
+
+            // Send the form data to the backend
             const response = await axiosInstance.post("/submit", formDataToSend);
 
+            // Handle specific responses
             if (response.data.status === "exists") {
                 setModalConfig({
                     isVisible: true,
-                    message: "Record already exists: " + response.data.message,
+                    message: "A record for this day and date already exists.",
                 });
-            } else {
+            } else if (response.data.status === "success") {
                 setModalConfig({
                     isVisible: true,
-                    message: "Data submitted successfully!",
+                    message: "Attendance record saved successfully!",
                 });
             }
         } catch (error) {
-            if (error.response?.status === 400 && error.response?.data.message === "All fields are required") {
-                const requiredMessage = "All fields required except";
-                const optionalFields = ['"New Attendance"', '"New Attendance Count"'];
+            const errorMessages = {
+                "Name, day, and date are required.": "Name & day are required.",
+                "Both AM and PM amounts are required, wait till you get evening count😉":
+                    "Both AM and PM amounts are required, wait till you get evening count😉.",
+                "Amount is required for Wednesday attendance.": "Amount is required for Wednesday attendance.",
+                "Please enter a valid date🤦": "Please enter a valid date🤦.",
+                "Record with this day and date already exists.": "A record for this day and date already exists.",
+                "Invalid time value": "Please enter a valid date🤦."
+            };
+
+            if (error.response?.status === 400 || error.response?.status === 409) {
+                const backendMessage = error.response.data.message;
+                const userFriendlyMessage = errorMessages[backendMessage] || backendMessage;
 
                 setModalConfig({
                     isVisible: true,
-                    message: `${requiredMessage} ${optionalFields.join(' & ')}`,
+                    message: userFriendlyMessage,
                 });
             } else {
                 console.error("Error submitting data:", error.response?.data || error.message);
                 setModalConfig({
                     isVisible: true,
-                    message: "An error occurred: " + (error.response?.data.message || error.message),
-                });
+                    message: error.response?.data?.message || error.message,
+                })
             }
         }
-    };
+    }
+
 
 
     const handleModalClose = () => {
@@ -138,7 +161,7 @@ const AddForm = () => {
                         onChange={handleChange}
                         className="w-full pl-3 pr-10 py-2 bg-transparent placeholder:text-slate-400 text-sm border border-black rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                     >
-                        <option value="DEFAULT" disabled>
+                        <option value="" disabled>
                             Select a day...
                         </option>
                         <option value="Wednesday">Wednesday</option>

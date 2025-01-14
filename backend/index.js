@@ -35,43 +35,43 @@ app.use(urlencoded({ extended: true }));
 
 app.post('/submit', async (req, res) => {
     try {
-        const { name, day, amount, date, amAmount, pmAmount, newAttendees, newAmount } = req.body;
+        const { name, day, date, amount, amAmount, pmAmount, newAttendees, newAmount } = req.body;
 
         // Validate required fields
         if (!name || !day || !date) {
-            return res.status(400).json({ message: 'Name, day, and date are required' });
+            return res.status(400).json({ message: 'Name, day, and date are required.' });
         }
 
-        // Check for specific validations based on the day
-        if (day === 'Wednesday' && (amount === undefined || amount === null)) {
-            return res.status(400).json({ message: 'Amount is required for Wednesday attendance' });
-        }
-
-        if (
-            day === 'Sunday' &&
-            (amAmount === '' || pmAmount === '')
-        ) {
-            return res.status(400).json({ message: 'Both AM and PM amounts are required, wait till you get evening count😉' });
-        }
-
-        // Ensure `date` is valid
+        // Ensure the date is valid
         const parsedDate = new Date(date);
         if (isNaN(parsedDate)) {
-            return res.status(400).json({ message: 'Invalid date format' });
+            return res.status(400).json({ message: 'Please enter a valid date🤦' });
         }
 
-        // Check if a record with the same day and date already exists
-        const existingRecord = await Attendance.findOne({ day, date: parsedDate });
+        // Validate specific requirements for each day
+        if (day === 'Wednesday') {
+            if (amount === undefined || amount === null || amount === '') {
+                return res.status(400).json({ message: 'Amount is required for Wednesday attendance.' });
+            }
+        } else if (day === 'Sunday') {
+            if (!amAmount || !pmAmount) {
+                return res.status(400).json({
+                    message: 'Both AM and PM amounts are required for Sunday attendance.',
+                });
+            }
+        }
 
+        // Check if a record for the same day and date exists
+        const existingRecord = await Attendance.findOne({ day, date: parsedDate });
         if (existingRecord) {
-            return res.status(200).json({
+            return res.status(409).json({
                 status: 'exists',
-                message: 'Record with this day and date already exists',
+                message: 'Record with this day and date already exists.',
                 data: existingRecord,
             });
         }
 
-        // Create and save the new attendance record
+        // Save new attendance record
         const newAttendance = new Attendance({
             name,
             day,
@@ -79,20 +79,21 @@ app.post('/submit', async (req, res) => {
             amount: day === 'Wednesday' ? amount : undefined,
             amAmount: day === 'Sunday' ? amAmount : undefined,
             pmAmount: day === 'Sunday' ? pmAmount : undefined,
-            newAttendees: newAttendees || [],
-            newAmount,
+            newAttendees: newAttendees || [], // Optional
+            newAmount: newAmount || undefined, // Optional
         });
 
         await newAttendance.save();
 
+        // Respond with success
         return res.status(201).json({
             status: 'success',
-            message: 'Attendance record saved successfully',
+            message: 'Attendance record saved successfully.',
             data: newAttendance,
         });
     } catch (error) {
         console.error('Error saving attendance record:', error);
-        return res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ message: 'An unexpected error occurred on the server.' });
     }
 });
 

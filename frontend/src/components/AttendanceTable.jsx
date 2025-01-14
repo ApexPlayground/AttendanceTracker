@@ -60,15 +60,19 @@ const AttendanceTable = () => {
                                 <tr key={index} className="border-b hover:bg-gray-50">
                                     <td className="px-6 py-4 text-center">{record.name}</td>
 
-                                    {/* Conditionally render Amount based on Day */}
-                                    <td className="px-6 py-4 text-center">
-                                        {record.day === "Wednesday" && record.amount}
+                                    <td className="px-4 py-2 text-sm sm:text-base text-center">
+                                        {record.day === "Wednesday" && (
+                                            <span className="block sm:inline">{record.amount}</span>
+                                        )}
                                         {record.day === "Sunday" && (
-                                            <>
-                                                AM: {record.amAmount} / PM: {record.pmAmount}
-                                            </>
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-center gap-1">
+                                                <span className="block">AM: {record.amAmount}</span>
+                                                <span className="hidden sm:inline">/</span>
+                                                <span className="block">PM: {record.pmAmount}</span>
+                                            </div>
                                         )}
                                     </td>
+
 
                                     <td className="px-6 py-4 text-center">{record.day}</td>
                                     <td className="px-6 py-4 text-center">{new Date(record.date).toLocaleDateString()}</td>
